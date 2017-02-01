@@ -1,3 +1,5 @@
+package com.minghuiliu.base.engine;
+
 import java.util.HashMap;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -72,7 +74,7 @@ public class Shader {
         glAttachShader(program, shader);
     }
 
-    private void addUniform(String uniform) {
+    public void addUniform(String uniform) {
         int uniformLocation = glGetUniformLocation(program, uniform);
 
         if(uniformLocation == 0xFFFFFFFF) {
@@ -84,7 +86,7 @@ public class Shader {
         uniforms.put(uniform, uniformLocation);
     }
 
-    private void setUniformi(String uniformName, int value) {
+    public void setUniformi(String uniformName, int value) {
         glUniform1i(uniforms.get(uniformName), value);
     }
 

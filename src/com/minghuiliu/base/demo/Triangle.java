@@ -1,11 +1,15 @@
+package com.minghuiliu.base.demo;
+
+import com.minghuiliu.base.engine.*;
+
 /**
- * Created by kevin on 1/31/17.
+ * Created by kevin on 2/1/17.
  */
-public class Game {
+public class Triangle extends Game{
     private Mesh mesh;
     private Shader shader;
 
-    public Game() {
+    public Triangle() {
         this.mesh = new Mesh();
         shader = new Shader();
 
@@ -17,15 +21,23 @@ public class Game {
 
         mesh.addVertices(data);
 
-        shader.addVertexShader(ResourceLoader.loadShader("basicVertex.vs"));
-        shader.addFragmentShader(ResourceLoader.loadShader("basicFragment.fs"));
+        shader.addVertexShader(ResourceLoader.loadShader("triangle.vs"));
+        shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));
         shader.compileShader();
     }
 
+
+    @Override
     public void handleInput() {
 
     }
 
+    @Override
+    public void update() {
+
+    }
+
+    @Override
     public void render() {
         shader.bind();
         mesh.draw();

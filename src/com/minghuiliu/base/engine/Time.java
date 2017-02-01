@@ -1,3 +1,5 @@
+package com.minghuiliu.base.engine;
+
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 /**

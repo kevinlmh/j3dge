@@ -1,6 +1,8 @@
 /**
  * Created by Minghui Liu on 1/31/17.
  */
+import com.minghuiliu.base.demo.MovingTriangle;
+import com.minghuiliu.base.engine.Game;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -11,11 +13,10 @@ import java.nio.*;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class MainComponent {
+public class Main {
 
     // The window handle
     private long window;
@@ -59,7 +60,7 @@ public class MainComponent {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(300, 300, "Window Title", NULL, NULL);
+        window = glfwCreateWindow(300, 300, "j3dge", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -106,14 +107,9 @@ public class MainComponent {
         GL.createCapabilities();
 
         System.out.println(glGetString(GL_VERSION));
-        game = new Game();
-//        glFrontFace(GL_CW);
-//        glCullFace(GL_BACK);
-//        glEnable(GL_CULL_FACE);
-//        glEnable(GL_DEPTH_TEST);
-//        glEnable(GL_FRAMEBUFFER_SRGB);
-
-
+        game = new MovingTriangle();
+        double lastTime = glfwGetTime();
+        int frameCount = 0;
 
         // Set the clear color
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -121,11 +117,21 @@ public class MainComponent {
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
+            // Measure speed
+            double currentTime = glfwGetTime();
+            frameCount++;
+            if (currentTime - lastTime >= 1.0) {
+                glfwSetWindowTitle(window, "j3dge " + 1000.0/frameCount + " ms/frame (" + frameCount + " FPS)");
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-
-            ////////////////////////
-            // MAIN GAME LOOP
+            //////////////////////
+            /// MAIN GAME LOOP ///
+            //////////////////////
+            game.update();
             game.render();
 
 
@@ -139,7 +145,7 @@ public class MainComponent {
     }
 
     public static void main(String[] args) {
-        new MainComponent().run();
+        new Main().run();
     }
 
 }
