@@ -1,9 +1,7 @@
 /**
  * Created by Minghui Liu on 1/31/17.
  */
-import com.minghuiliu.base.demo.LoadObj;
-import com.minghuiliu.base.demo.MovingTriangle;
-import com.minghuiliu.base.demo.RotatingPyramid;
+import com.minghuiliu.base.demo.*;
 import com.minghuiliu.base.engine.Game;
 import com.minghuiliu.base.engine.Time;
 import org.lwjgl.*;
@@ -63,7 +61,7 @@ public class Main {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(300, 300, "j3dge", NULL, NULL);
+        window = glfwCreateWindow(800, 600, "j3dge", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -111,7 +109,7 @@ public class Main {
 
         System.out.println(glGetString(GL_VERSION));
         // New instance of a game
-        game = new LoadObj();
+        game = new MVP();
         double lastFrameTime = glfwGetTime();
         double lastTime = glfwGetTime();
         int frameCount = 0;
@@ -125,7 +123,7 @@ public class Main {
             // Measure speed
             double currentTime = glfwGetTime();
             frameCount++;
-            Time.setDelta(currentTime - lastTime);
+            Time.SetDelta(currentTime - lastTime);
             if (currentTime - lastFrameTime >= 1.0) {
                 glfwSetWindowTitle(window, "j3dge " + 1000.0/frameCount + " ms/frame (" + frameCount + " FPS)");
                 frameCount = 0;

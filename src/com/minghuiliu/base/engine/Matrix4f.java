@@ -21,58 +21,6 @@ public class Matrix4f {
         return this;
     }
 
-    public Matrix4f initTranslation(float x, float y, float z) {
-        initIdentity();
-        m[0][3] = x;
-        m[1][3] = y;
-        m[2][3] = z;
-
-        return this;
-    }
-
-    public Matrix4f initRotation(float x, float y, float z) {
-        Matrix4f rx = new Matrix4f();
-        Matrix4f ry = new Matrix4f();
-        Matrix4f rz = new Matrix4f();
-
-        rx.initIdentity();
-        ry.initIdentity();
-        rz.initIdentity();
-
-        x = (float)Math.toRadians(x);
-        y = (float)Math.toRadians(y);
-        z = (float)Math.toRadians(z);
-
-        rz.set(0, 0, (float)Math.cos(z));
-        rz.set(0, 1, -(float)Math.sin(z));
-        rz.set(1, 0, (float)Math.sin(z));
-        rz.set(1, 1, (float)Math.cos(z));
-
-        rx.set(1, 1, (float)Math.cos(x));
-        rx.set(1, 2, -(float)Math.sin(x));
-        rx.set(2, 1, (float)Math.sin(x));
-        rx.set(2, 2, (float)Math.cos(x));
-
-        ry.set(0, 0, (float)Math.cos(y));
-        ry.set(0, 2, -(float)Math.sin(y));
-        ry.set(2, 0, (float)Math.sin(y));
-        ry.set(2, 2, (float)Math.cos(y));
-
-        m = rz.mul(ry.mul(rx)).getM();
-
-        return this;
-    }
-
-    public Matrix4f initScale(float x, float y, float z) {
-        initIdentity();
-
-        m[0][0] = x;
-        m[1][1] = y;
-        m[2][2] = z;
-
-        return this;
-    }
-
     public Matrix4f mul(Matrix4f r) {
         Matrix4f res = new Matrix4f();
 

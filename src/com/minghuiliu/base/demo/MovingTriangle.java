@@ -8,7 +8,7 @@ import com.minghuiliu.base.engine.*;
 public class MovingTriangle extends Game {
     private Mesh mesh;
     private Shader shader;
-    private Transform transform;
+    private Pipeline pipeline;
 
     float temp = 0.0f;
 
@@ -17,7 +17,7 @@ public class MovingTriangle extends Game {
 
         this.mesh = new Mesh();
         this.shader = new Shader();
-        this.transform = new Transform();
+        this.pipeline = new Pipeline();
 
         Vector3f[] data = new Vector3f[] {
                 new Vector3f(-0.5f, -0.5f, 0),
@@ -46,18 +46,18 @@ public class MovingTriangle extends Game {
     @Override
     public void update() {
         double speed = 0.5f;
-        temp += speed * (float)Time.getDelta();
+        temp += speed * (float)Time.GetDelta();
         float sinTemp = (float)Math.sin(temp);
 
-        transform.setTranslation(sinTemp, 0, 0);
-        transform.setRotation(0, 0, sinTemp * 180);
-        transform.setScale(sinTemp, sinTemp, sinTemp);
+        pipeline.setTranslation(sinTemp, 0, 0);
+        pipeline.setRotation(0, 0, sinTemp * 180);
+        pipeline.setScale(sinTemp, sinTemp, sinTemp);
     }
 
     @Override
     public void render() {
         shader.bind();
-        shader.setUniform("transform", transform.getTransformation());
+        shader.setUniform("transform", pipeline.getTransformation());
         mesh.draw();
     }
 }

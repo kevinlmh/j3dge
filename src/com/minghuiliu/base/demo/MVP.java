@@ -3,28 +3,32 @@ package com.minghuiliu.base.demo;
 import com.minghuiliu.base.engine.*;
 
 /**
- * Created by kevin on 2/2/17.
+ * Created by kevin on 2/3/17.
  */
-public class LoadObj extends Game {
+public class MVP extends Game {
     private Mesh mesh;
     private Shader shader;
     private Pipeline pipeline;
 
     float temp = 0.0f;
 
-    public LoadObj() {
+    public MVP() {
         super();
 
         this.mesh = ResourceLoader.loadMesh("monkey.obj");
         this.shader = new Shader();
         this.pipeline = new Pipeline();
 
+        pipeline.setCamera(new Camera(new Vector3f(1.0f, 1.0f, -3.0f),
+                new Vector3f(0.0f, 0, 1.0f),
+                new Vector3f(0, 1, 0)));
+        pipeline.setTranslation(0, 0, 5);
 
-        shader.addVertexShader(ResourceLoader.loadShader("loadObj.vs"));
+        shader.addVertexShader(ResourceLoader.loadShader("mvp.vs"));
         shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));
         shader.compileShader();
 
-        shader.addUniform("transform");
+        shader.addUniform("MVP");
     }
 
     @Override
@@ -38,14 +42,18 @@ public class LoadObj extends Game {
         temp += speed * (float)Time.GetDelta();
         float sinTemp = (float)Math.sin(temp);
 
-        pipeline.setTranslation(sinTemp, 0, 0);
         pipeline.setRotation(0, sinTemp * 180, 0);
     }
 
     @Override
     public void render() {
         shader.bind();
-        shader.setUniform("transform", pipeline.getTransformation());
+
+        Matrix4f MVPMatrix = pipeline.getTransformation();
+
+        shader.setUniform("MVP", MVPMatrix);
+
         mesh.draw();
     }
 }
+

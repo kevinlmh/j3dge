@@ -37,8 +37,7 @@ public class ResourceLoader {
         String[] splitArray = fileName.split("\\.");
         String ext = splitArray[splitArray.length - 1];
 
-        if(!ext.equals("obj"))
-        {
+        if(!ext.equals("obj")) {
             System.err.println("Error: File format not supported for mesh data: " + ext);
             new Exception().printStackTrace();
             System.exit(1);
@@ -49,29 +48,31 @@ public class ResourceLoader {
 
         BufferedReader meshReader = null;
 
-        try
-        {
+        try {
             meshReader = new BufferedReader(new FileReader("./res/models/" + fileName));
             String line;
 
-            while((line = meshReader.readLine()) != null)
-            {
+            while((line = meshReader.readLine()) != null) {
                 String[] tokens = line.split(" ");
                 tokens = Utils.removeEmptyStrings(tokens);
 
                 if(tokens.length == 0 || tokens[0].equals("#"))
                     continue;
-                else if(tokens[0].equals("v"))
-                {
+                else if(tokens[0].equals("v")) {
                     vertices.add(new Vector3f(Float.valueOf(tokens[1]),
                             Float.valueOf(tokens[2]),
                             Float.valueOf(tokens[3])));
                 }
-                else if(tokens[0].equals("f"))
-                {
-                    indices.add(Integer.parseInt(tokens[1]) - 1);
-                    indices.add(Integer.parseInt(tokens[2]) - 1);
-                    indices.add(Integer.parseInt(tokens[3]) - 1);
+                else if(tokens[0].equals("f")) {
+                    indices.add(Integer.parseInt(tokens[1].split("/")[0]) - 1);
+                    indices.add(Integer.parseInt(tokens[2].split("/")[0]) - 1);
+                    indices.add(Integer.parseInt(tokens[3].split("/")[0]) - 1);
+
+                    if(tokens.length > 4) {
+                        indices.add(Integer.parseInt(tokens[1].split("/")[0]) - 1);
+                        indices.add(Integer.parseInt(tokens[3].split("/")[0]) - 1);
+                        indices.add(Integer.parseInt(tokens[4].split("/")[0]) - 1);
+                    }
                 }
             }
 
@@ -87,9 +88,7 @@ public class ResourceLoader {
             res.addVertices(vertexData, Utils.toIntArray(indexData));
 
             return res;
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             e.printStackTrace();
             System.exit(1);
         }

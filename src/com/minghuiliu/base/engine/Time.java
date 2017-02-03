@@ -8,15 +8,15 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 public class Time {
     private static double delta;
 
-    public static double getTime() {
+    public static double GetTime() {
         return glfwGetTime();
     }
 
-    public static double getDelta() {
+    public static double GetDelta() {
         return delta;
     }
 
-    public static void setDelta(double delta) {
+    public static void SetDelta(double delta) {
         Time.delta = delta;
     }
 }
