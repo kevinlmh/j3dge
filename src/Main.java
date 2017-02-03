@@ -1,6 +1,7 @@
 /**
  * Created by Minghui Liu on 1/31/17.
  */
+import com.minghuiliu.base.demo.LoadObj;
 import com.minghuiliu.base.demo.MovingTriangle;
 import com.minghuiliu.base.demo.RotatingPyramid;
 import com.minghuiliu.base.engine.Game;
@@ -110,7 +111,7 @@ public class Main {
 
         System.out.println(glGetString(GL_VERSION));
         // New instance of a game
-        game = new RotatingPyramid();
+        game = new LoadObj();
         double lastFrameTime = glfwGetTime();
         double lastTime = glfwGetTime();
         int frameCount = 0;

@@ -5,34 +5,22 @@ import com.minghuiliu.base.engine.*;
 /**
  * Created by kevin on 2/2/17.
  */
-public class RotatingPyramid extends Game {
+public class LoadObj extends Game {
     private Mesh mesh;
     private Shader shader;
     private Transform transform;
 
     float temp = 0.0f;
 
-    public RotatingPyramid() {
+    public LoadObj() {
         super();
 
-        this.mesh = new Mesh();
+        this.mesh = ResourceLoader.loadMesh("monkey.obj");
         this.shader = new Shader();
         this.transform = new Transform();
 
-        Vector3f[] data = new Vector3f[] {
-                new Vector3f(-0.5f, -0.5f, 0),
-                new Vector3f(0, 0.5f, 0),
-                new Vector3f(0.5f, -0.5f, 0),
-                new Vector3f(0f, -0.5f, 0.5f)
-        };
 
-        int[] indices = new int[] {
-                0, 1, 3, 3, 1, 2, 2, 1, 0, 0, 2, 3
-        };
-
-        mesh.addVertices(data, indices);
-
-        shader.addVertexShader(ResourceLoader.loadShader("movingTriangle.vs"));
+        shader.addVertexShader(ResourceLoader.loadShader("loadObj.vs"));
         shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));
         shader.compileShader();
 
@@ -52,7 +40,6 @@ public class RotatingPyramid extends Game {
 
         transform.setTranslation(sinTemp, 0, 0);
         transform.setRotation(0, sinTemp * 180, 0);
-        transform.setScale(sinTemp, sinTemp, sinTemp);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class MovingTriangle extends Game {
         mesh.addVertices(data, indices);
 
         shader.addVertexShader(ResourceLoader.loadShader("movingTriangle.vs"));
-        shader.addFragmentShader(ResourceLoader.loadShader("movingTriangle.fs"));
+        shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));
         shader.compileShader();
 
         shader.addUniform("transform");
