@@ -19,7 +19,12 @@ public class Triangle extends Game{
                 new Vector3f(1, -1, 0)
         };
 
-        mesh.addVertices(data);
+        int[] indices = new int[] {
+                0, 1, 2
+        };
+
+        mesh.addVertices(data, indices);
+
 
         shader.addVertexShader(ResourceLoader.loadShader("triangle.vs"));
         shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));

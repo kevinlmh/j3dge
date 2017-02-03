@@ -2,7 +2,9 @@
  * Created by Minghui Liu on 1/31/17.
  */
 import com.minghuiliu.base.demo.MovingTriangle;
+import com.minghuiliu.base.demo.RotatingPyramid;
 import com.minghuiliu.base.engine.Game;
+import com.minghuiliu.base.engine.Time;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -107,7 +109,9 @@ public class Main {
         GL.createCapabilities();
 
         System.out.println(glGetString(GL_VERSION));
-        game = new MovingTriangle();
+        // New instance of a game
+        game = new RotatingPyramid();
+        double lastFrameTime = glfwGetTime();
         double lastTime = glfwGetTime();
         int frameCount = 0;
 
@@ -120,10 +124,11 @@ public class Main {
             // Measure speed
             double currentTime = glfwGetTime();
             frameCount++;
-            if (currentTime - lastTime >= 1.0) {
+            Time.setDelta(currentTime - lastTime);
+            if (currentTime - lastFrameTime >= 1.0) {
                 glfwSetWindowTitle(window, "j3dge " + 1000.0/frameCount + " ms/frame (" + frameCount + " FPS)");
                 frameCount = 0;
-                lastTime = currentTime;
+                lastFrameTime = currentTime;
             }
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
@@ -141,6 +146,7 @@ public class Main {
             // invoked during this call.
             glfwPollEvents();
 
+            lastTime = currentTime;
         }
     }
 

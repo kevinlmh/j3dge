@@ -3,6 +3,7 @@ package com.minghuiliu.base.engine;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 /**
  * Created by kevin on 1/31/17.
@@ -10,6 +11,18 @@ import java.nio.FloatBuffer;
 public class Utils {
     public static FloatBuffer createFloatBuffer(int size) {
         return BufferUtils.createFloatBuffer(size);
+    }
+
+    public static IntBuffer createIntBuffer(int size) {
+        return BufferUtils.createIntBuffer(size);
+    }
+
+    public static IntBuffer createFlippedBuffer(int... values) {
+        IntBuffer buffer = createIntBuffer(values.length);
+        buffer.put(values);
+        buffer.flip();
+
+        return buffer;
     }
 
     public static FloatBuffer createFlippedBuffer(Vector3f[] vertices) {
