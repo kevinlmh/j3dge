@@ -39,6 +39,21 @@ public class Utils {
         return buffer;
     }
 
+    public static FloatBuffer createFlippedBuffer(Vertex[] vertices) {
+        FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.SIZE);
+
+        for (Vertex v : vertices) {
+            buffer.put(v.getPos().getX());
+            buffer.put(v.getPos().getY());
+            buffer.put(v.getPos().getZ());
+            buffer.put(v.getTexCoord().getX());
+            buffer.put(v.getTexCoord().getY());
+        }
+
+        buffer.flip();
+        return buffer;
+    }
+
     public static FloatBuffer createFlippedBuffer(Matrix4f matrix) {
         FloatBuffer buffer = createFloatBuffer(4 * 4);
 

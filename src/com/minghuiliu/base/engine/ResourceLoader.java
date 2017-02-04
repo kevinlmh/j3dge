@@ -1,8 +1,15 @@
 package com.minghuiliu.base.engine;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
+import static org.lwjgl.opengl.GL30.glGenerateMipmap;
+import static org.lwjgl.stb.STBImage.stbi_failure_reason;
+import static org.lwjgl.stb.STBImage.stbi_load;
+import static org.lwjgl.stb.STBImage.stbi_set_flip_vertically_on_load;
 
 /**
  * Created by kevin on 1/31/17.
@@ -45,6 +52,7 @@ public class ResourceLoader {
 
         ArrayList<Vector3f> vertices = new ArrayList<Vector3f>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
+        ArrayList<Vector2f> uvs = new ArrayList<Vector2f>();
 
         BufferedReader meshReader = null;
 
@@ -52,18 +60,19 @@ public class ResourceLoader {
             meshReader = new BufferedReader(new FileReader("./res/models/" + fileName));
             String line;
 
-            while((line = meshReader.readLine()) != null) {
+            while ((line = meshReader.readLine()) != null) {
                 String[] tokens = line.split(" ");
                 tokens = Utils.removeEmptyStrings(tokens);
 
-                if(tokens.length == 0 || tokens[0].equals("#"))
+                if (tokens.length == 0 || tokens[0].equals("#"))
                     continue;
-                else if(tokens[0].equals("v")) {
+                else if (tokens[0].equals("v")) {
                     vertices.add(new Vector3f(Float.valueOf(tokens[1]),
                             Float.valueOf(tokens[2]),
                             Float.valueOf(tokens[3])));
-                }
-                else if(tokens[0].equals("f")) {
+                } else if (tokens[0].equals("vt")) {
+                    uvs.add(new Vector2f(Float.valueOf(tokens[1]), Float.valueOf(tokens[2])));
+                }  else if (tokens[0].equals("f")) {
                     indices.add(Integer.parseInt(tokens[1].split("/")[0]) - 1);
                     indices.add(Integer.parseInt(tokens[2].split("/")[0]) - 1);
                     indices.add(Integer.parseInt(tokens[3].split("/")[0]) - 1);
@@ -94,5 +103,40 @@ public class ResourceLoader {
         }
 
         return null;
+    }
+
+    public static Texture loadTexture(String fileName) {
+        int[] w = new int[1];
+        int[] h = new int[1];
+        int[] comp = new int[1];
+
+        stbi_set_flip_vertically_on_load(true);
+        ByteBuffer image = stbi_load("./res/texture/" + fileName, w, h, comp, 4);
+        if (image == null) {
+            throw new RuntimeException("Failed to load a texture file!"
+                    + System.lineSeparator() + stbi_failure_reason());
+        }
+
+        int width = w[0];
+        int height = h[0];
+
+        int textureId = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, textureId);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+
+// Optional
+// https://github.com/SilverTiger/lwjgl3-tutorial/wiki/Textures
+// http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/
+
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+//
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        // Must generate mipmap
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        return new Texture(textureId);
     }
 }

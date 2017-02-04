@@ -74,9 +74,9 @@ public class Main {
         });
 
         // Setup scroll wheel callback
-        glfwSetScrollCallback(window, (long window, double xoffset, double yoffset) -> {
-            ((CameraControl)game).scrollCallback(window, xoffset, yoffset);
-        });
+//        glfwSetScrollCallback(window, (long window, double xoffset, double yoffset) -> {
+//            ((TextureDemo)game).scrollCallback(window, xoffset, yoffset);
+//        });
 
         // Set input mode to capture cursor when window is active
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -120,8 +120,19 @@ public class Main {
         // Print out openGL version
         System.out.println(glGetString(GL_VERSION));
 
+        // Optional
+//        glFrontFace(GL_CW);
+//        glCullFace(GL_BACK);
+//        glEnable(GL_CULL_FACE);
+
+        // Enable depth test
+        glEnable(GL_DEPTH_TEST);
+        // Accept fragment if it closer to the camera than the former one
+        glDepthFunc(GL_LESS);
+//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
         // New instance of a game
-        game = new CameraControl(window);
+        game = new TextureDemo(window);
         // Some time keeping
         double lastFrameTime = glfwGetTime();
         double lastTime = glfwGetTime();

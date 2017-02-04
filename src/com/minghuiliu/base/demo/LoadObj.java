@@ -19,7 +19,6 @@ public class LoadObj extends Game {
         this.shader = new Shader();
         this.pipeline = new Pipeline();
 
-
         shader.addVertexShader(ResourceLoader.loadShader("loadObj.vs"));
         shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));
         shader.compileShader();
@@ -38,7 +37,7 @@ public class LoadObj extends Game {
         temp += speed * (float)Time.GetDelta();
         float sinTemp = (float)Math.sin(temp);
 
-        pipeline.setTranslation(sinTemp, 0, 0);
+        pipeline.setTranslation(sinTemp, 0, -3);
         pipeline.setRotation(0, sinTemp * 180, 0);
     }
 

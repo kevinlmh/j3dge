@@ -35,12 +35,38 @@ public class Mesh {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createFlippedBuffer(indices), GL_STATIC_DRAW);
     }
 
+    public void addVertices(Vertex[] vertices, int[] indices) {
+        this.size = indices.length;
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, Utils.createFlippedBuffer(vertices), GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createFlippedBuffer(indices), GL_STATIC_DRAW);
+    }
+
+    public void drawTextured() {
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, Vertex.SIZE * 4, 12);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+        glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+    }
+
     public void draw() {
         glEnableVertexAttribArray(0);
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, Constants.VERTEX_SIZE * 4, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
         glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
