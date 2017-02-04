@@ -12,8 +12,8 @@ public class MovingTriangle extends Game {
 
     float temp = 0.0f;
 
-    public MovingTriangle() {
-        super();
+    public MovingTriangle(long window) {
+        super(window);
 
         this.mesh = new Mesh();
         this.shader = new Shader();

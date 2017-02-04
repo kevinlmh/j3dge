@@ -6,4 +6,7 @@ package com.minghuiliu.base.engine;
 public class Constants {
     public static final int VERTEX_SIZE = 3;
 
+    public static final float MOVEMENT_SPEED = 0.2f;
+
+    public static final float MOUSE_SPEED = 3f;
 }

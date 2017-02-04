@@ -61,7 +61,9 @@ public class Main {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(800, 600, "j3dge", NULL, NULL);
+        window = glfwCreateWindow(960, 540, "j3dge", NULL, NULL);
+//        window = glfwCreateWindow(1280, 720, "j3dge", glfwGetPrimaryMonitor(), NULL);
+
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -70,6 +72,14 @@ public class Main {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
         });
+
+        // Setup scroll wheel callback
+        glfwSetScrollCallback(window, (long window, double xoffset, double yoffset) -> {
+            ((CameraControl)game).scrollCallback(window, xoffset, yoffset);
+        });
+
+        // Set input mode to capture cursor when window is active
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         // Get the thread stack and push a new frame
         try ( MemoryStack stack = stackPush() ) {
@@ -107,9 +117,12 @@ public class Main {
         // bindings available for use.
         GL.createCapabilities();
 
+        // Print out openGL version
         System.out.println(glGetString(GL_VERSION));
+
         // New instance of a game
-        game = new MVP();
+        game = new CameraControl(window);
+        // Some time keeping
         double lastFrameTime = glfwGetTime();
         double lastTime = glfwGetTime();
         int frameCount = 0;
@@ -135,6 +148,7 @@ public class Main {
             //////////////////////
             /// MAIN GAME LOOP ///
             //////////////////////
+            game.handleInput();
             game.update();
             game.render();
 

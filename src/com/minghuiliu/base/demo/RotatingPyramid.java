@@ -12,8 +12,8 @@ public class RotatingPyramid extends Game {
 
     float temp = 0.0f;
 
-    public RotatingPyramid() {
-        super();
+    public RotatingPyramid(long window) {
+        super(window);
 
         this.mesh = new Mesh();
         this.shader = new Shader();

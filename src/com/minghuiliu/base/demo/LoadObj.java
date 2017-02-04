@@ -12,8 +12,8 @@ public class LoadObj extends Game {
 
     float temp = 0.0f;
 
-    public LoadObj() {
-        super();
+    public LoadObj(long window) {
+        super(window);
 
         this.mesh = ResourceLoader.loadMesh("monkey.obj");
         this.shader = new Shader();

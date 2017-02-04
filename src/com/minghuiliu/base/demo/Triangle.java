@@ -9,7 +9,8 @@ public class Triangle extends Game{
     private Mesh mesh;
     private Shader shader;
 
-    public Triangle() {
+    public Triangle(long window) {
+        super(window);
         this.mesh = new Mesh();
         shader = new Shader();
 
@@ -30,7 +31,6 @@ public class Triangle extends Game{
         shader.addFragmentShader(ResourceLoader.loadShader("triangle.fs"));
         shader.compileShader();
     }
-
 
     @Override
     public void handleInput() {

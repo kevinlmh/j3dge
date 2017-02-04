@@ -22,9 +22,9 @@ public class Pipeline {
         Matrix4f rotationMatrix = InitRotation(rotation.getX(), rotation.getY(), rotation.getZ());
         Matrix4f translationMatrix = InitTranslation(translation.getX(), translation.getY(), translation.getZ());
 
-        Matrix4f cameraTranslation = InitTranslation(-camera.getPostion().getX(), -camera.getPostion().getY(), -camera.getPostion().getZ());
+        Matrix4f cameraTranslation = InitTranslation(-camera.getPosition().getX(), -camera.getPosition().getY(), -camera.getPosition().getZ());
         Matrix4f cameraRotation = InitCameraTransform(camera.getTarget(), camera.getUp());
-        Matrix4f perspectiveProjection = InitPerspectiveProjection(60f, 800, 600, 0.1f, 1000f);
+        Matrix4f perspectiveProjection = InitPerspectiveProjection(camera.getFov(), camera.getAr(), camera.getzNear(), camera.getzFar());
 
         return perspectiveProjection.mul(cameraRotation.mul(cameraTranslation.mul(translationMatrix.mul(rotationMatrix.mul(scaleMatrix)))));
     }
@@ -128,8 +128,7 @@ public class Pipeline {
         return m;
     }
 
-    private static Matrix4f InitPerspectiveProjection(float fov, float width, float height, float zNear, float zFar) {
-        float ar = width/height;
+    private static Matrix4f InitPerspectiveProjection(float fov, float ar, float zNear, float zFar) {
         float tanHalfFOV = (float)Math.tan(Math.toRadians(fov / 2));
         float zRange = zNear - zFar;
 

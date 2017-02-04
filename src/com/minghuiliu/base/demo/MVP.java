@@ -12,8 +12,8 @@ public class MVP extends Game {
 
     float temp = 0.0f;
 
-    public MVP() {
-        super();
+    public MVP(long window) {
+        super(window);
 
         this.mesh = ResourceLoader.loadMesh("monkey.obj");
         this.shader = new Shader();
