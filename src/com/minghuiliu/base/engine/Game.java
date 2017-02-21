@@ -12,6 +12,8 @@ public abstract class Game {
 
     public abstract void handleInput();
 
+    public abstract void scrollCallback(long window, double xoffset, double yoffset);
+
     public abstract void update();
 
     public abstract void render();

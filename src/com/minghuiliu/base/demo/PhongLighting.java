@@ -130,11 +130,7 @@ public class PhongLighting extends Game {
 
     @Override
     public void update() {
-        double speed = 0.5f;
-        temp += speed * (float)Time.GetDelta();
-        float sinTemp = (float)Math.sin(temp);
 
-//        pipeline.setRotation(0, sinTemp * 180, 0);
     }
 
     @Override

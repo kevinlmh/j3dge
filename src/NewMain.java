@@ -62,9 +62,9 @@ public class NewMain {
         });
 
         // Setup scroll wheel callback
-//        glfwSetScrollCallback(window, (long window, double xoffset, double yoffset) -> {
-//            ((TextureDemo)game).scrollCallback(window, xoffset, yoffset);
-//        });
+        glfwSetScrollCallback(window, (long window, double xoffset, double yoffset) -> {
+            game.scrollCallback(window, xoffset, yoffset);
+        });
 
         // Set input mode to capture cursor when window is active
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

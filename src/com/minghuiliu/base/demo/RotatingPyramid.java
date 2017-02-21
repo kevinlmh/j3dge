@@ -45,6 +45,11 @@ public class RotatingPyramid extends Game {
     }
 
     @Override
+    public void scrollCallback(long window, double xoffset, double yoffset) {
+
+    }
+
+    @Override
     public void update() {
         double speed = 0.5f;
         temp += speed * (float)Time.GetDelta();
