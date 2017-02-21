@@ -17,6 +17,7 @@ public class Pipeline {
         camera = new Camera();
     }
 
+    // will eventually be removed
     public Matrix4f getTransformation() {
         Matrix4f scaleMatrix = InitScale(scale.getX(), scale.getY(), scale.getZ());
         Matrix4f rotationMatrix = InitRotation(rotation.getX(), rotation.getY(), rotation.getZ());
@@ -27,6 +28,22 @@ public class Pipeline {
         Matrix4f perspectiveProjection = InitPerspectiveProjection(camera.getFov(), camera.getAr(), camera.getzNear(), camera.getzFar());
 
         return perspectiveProjection.mul(cameraRotation.mul(cameraTranslation.mul(translationMatrix.mul(rotationMatrix.mul(scaleMatrix)))));
+    }
+
+    public Matrix4f getModelMatrix() {
+        Matrix4f scaleMatrix = InitScale(scale.getX(), scale.getY(), scale.getZ());
+        Matrix4f rotationMatrix = InitRotation(rotation.getX(), rotation.getY(), rotation.getZ());
+        Matrix4f translationMatrix = InitTranslation(translation.getX(), translation.getY(), translation.getZ());
+
+        return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
+    }
+
+    public Matrix4f getMVPMatrix() {
+        Matrix4f cameraTranslation = InitTranslation(-camera.getPosition().getX(), -camera.getPosition().getY(), -camera.getPosition().getZ());
+        Matrix4f cameraRotation = InitCameraTransform(camera.getTarget(), camera.getUp());
+        Matrix4f perspectiveProjection = InitPerspectiveProjection(camera.getFov(), camera.getAr(), camera.getzNear(), camera.getzFar());
+
+        return perspectiveProjection.mul(cameraRotation.mul(cameraTranslation.mul(getModelMatrix())));
     }
 
     public Vector3f getTranslation() {
