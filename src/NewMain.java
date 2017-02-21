@@ -1,44 +1,32 @@
-/**
- * Created by Minghui Liu on 1/31/17.
- */
-import com.minghuiliu.base.demo.*;
+import com.minghuiliu.base.demo.PhongLighting;
+import com.minghuiliu.base.demo.TextureDemo;
 import com.minghuiliu.base.engine.Game;
 import com.minghuiliu.base.engine.Time;
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import com.minghuiliu.base.engine.Utils;
+import org.lwjgl.Version;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.system.MemoryStack;
 
-import java.nio.*;
+import java.nio.IntBuffer;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Main {
+/**
+ * Created by kevin on 2/20/17.
+ */
+public class NewMain {
 
     // The window handle
-    private long window;
+    private static long window;
 
     // NEW GAME
     private Game game;
-
-    public void run() {
-        System.out.println("LWJGL " + Version.getVersion() + "!");
-
-        init();
-        loop();
-
-        // Free the window callbacks and destroy the window
-        glfwFreeCallbacks(window);
-        glfwDestroyWindow(window);
-
-        // Terminate GLFW and free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
-    }
 
     private void init() {
         // Setup an error callback. The default implementation
@@ -110,36 +98,16 @@ public class Main {
     }
 
     private void loop() {
-        // This line is critical for LWJGL's interoperation with GLFW's
-        // OpenGL context, or any context that is managed externally.
-        // LWJGL detects the context that is current in the current thread,
-        // creates the GLCapabilities instance and makes the OpenGL
-        // bindings available for use.
-        GL.createCapabilities();
-
-        // Print out openGL version
-        System.out.println(glGetString(GL_VERSION));
-
-        // Cull back faces
-        glFrontFace(GL_CW);
-        glCullFace(GL_BACK);
-        glEnable(GL_CULL_FACE);
-        // Enable depth test
-        glEnable(GL_DEPTH_TEST);
-        // Accept fragment if it closer to the camera than the former one
-        glDepthFunc(GL_LESS);
-        // Draw polygon using lines, very cool
-//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        // Init graphics
+        Utils.initOpenGL();
 
         // New instance of a game
-        game = new TextureDemo(window);
+        game = new PhongLighting(window);
+
         // Some time keeping
         double lastFrameTime = glfwGetTime();
         double lastTime = glfwGetTime();
         int frameCount = 0;
-
-        // Set the clear color
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
@@ -154,18 +122,14 @@ public class Main {
                 lastFrameTime = currentTime;
             }
 
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            Utils.clearScreen();
 
-            //////////////////////
-            /// MAIN GAME LOOP ///
-            //////////////////////
+            // MAIN GAME LOOP
             game.handleInput();
             game.update();
             game.render();
 
-
             glfwSwapBuffers(window); // swap the color buffers
-
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
@@ -175,7 +139,19 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new Main().run();
+        System.out.println("LWJGL " + Version.getVersion() + "!");
+
+        NewMain nm = new NewMain();
+        nm.init();
+        nm.loop();
+
+        // Free the window callbacks and destroy the window
+        glfwFreeCallbacks(window);
+        glfwDestroyWindow(window);
+
+        // Terminate GLFW and free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 
 }
