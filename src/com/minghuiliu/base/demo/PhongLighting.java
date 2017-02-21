@@ -124,6 +124,23 @@ public class PhongLighting extends Game {
         }
     }
 
+    public void keyCallback(long window, int key, int scancode, int action, int mods) {
+        // Toggle ambient light
+        if ( key == GLFW_KEY_A && action == GLFW_RELEASE ) {
+            if (PhongShader.getAmbientLight().getX() > 0)
+                PhongShader.setAmbientLight(new Vector3f(0, 0, 0));
+            else
+                PhongShader.setAmbientLight(new Vector3f(0.15f, 0.15f, 0.15f));
+        }
+        // Toggle diffuse light
+        if (key == GLFW_KEY_D && action == GLFW_RELEASE) {
+            if (PhongShader.getDirectionalLight().getBase().getIntensity() > 0)
+                PhongShader.getDirectionalLight().getBase().setIntensity(0);
+            else
+                PhongShader.getDirectionalLight().getBase().setIntensity(0.8f);
+        }
+    }
+
     public void scrollCallback(long window, double xoffset, double yoffset) {
         float fov = pipeline.getCamera().getFov();
         fov = Math.min(120, Math.max(30, fov + 5 * (float)yoffset));

@@ -12,6 +12,8 @@ public abstract class Game {
 
     public abstract void handleInput();
 
+    public abstract void keyCallback(long window, int key, int scancode, int action, int mods);
+
     public abstract void scrollCallback(long window, double xoffset, double yoffset);
 
     public abstract void update();

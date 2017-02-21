@@ -81,6 +81,10 @@ public class CameraControl extends Game {
         }
     }
 
+    @Override
+    public void keyCallback(long window, int key, int scancode, int action, int mods) {
+
+    }
 
     public void scrollCallback(long window, double xoffset, double yoffset) {
         float fov = pipeline.getCamera().getFov();

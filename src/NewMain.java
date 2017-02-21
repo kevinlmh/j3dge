@@ -59,6 +59,7 @@ public class NewMain {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            game.keyCallback(window, key, scancode, action, mods);
         });
 
         // Setup scroll wheel callback

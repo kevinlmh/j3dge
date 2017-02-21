@@ -45,6 +45,11 @@ public class RotatingPyramid extends Game {
     }
 
     @Override
+    public void keyCallback(long window, int key, int scancode, int action, int mods) {
+
+    }
+
+    @Override
     public void scrollCallback(long window, double xoffset, double yoffset) {
 
     }

@@ -136,6 +136,11 @@ public class TextureDemo extends Game {
         }
     }
 
+    @Override
+    public void keyCallback(long window, int key, int scancode, int action, int mods) {
+
+    }
+
     public void scrollCallback(long window, double xoffset, double yoffset) {
         float fov = pipeline.getCamera().getFov();
         fov = Math.min(120, Math.max(30, fov + 5 * (float)yoffset));
