@@ -26,6 +26,9 @@ public class PhongShader extends Shader {
         addUniform("MVP");
         addUniform("baseColor");
         addUniform("ambientLight");
+        addUniform("specularIntensity");
+        addUniform("specularPower");
+        addUniform("cameraPos");
         addUniform("directionalLight.base.color");
         addUniform("directionalLight.base.intensity");
         addUniform("directionalLight.direction");
@@ -41,6 +44,9 @@ public class PhongShader extends Shader {
         setUniform("MVP", MVPMatrix);
         setUniform("baseColor", material.getColor());
         setUniform("ambientLight", ambientLight);
+        setUniformf("specularIntensity", material.getSpecularIntensity());
+        setUniformf("specularPower", material.getSpecularPower());
+        // You have to set camera position manually in your game's render() loop
         setUniform("directionalLight", directionalLight);
     }
 

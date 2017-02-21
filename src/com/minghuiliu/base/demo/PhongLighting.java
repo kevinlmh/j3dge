@@ -24,7 +24,7 @@ public class PhongLighting extends Game {
         super(window);
 
         this.mesh = new Mesh();
-        this.material = new Material(ResourceLoader.loadTexture("grassblock.png"));
+        this.material = new Material(ResourceLoader.loadTexture("wood.png"));
         this.shader = PhongShader.getInstance();
         this.pipeline = new Pipeline();
 
@@ -139,6 +139,11 @@ public class PhongLighting extends Game {
             else
                 PhongShader.getDirectionalLight().getBase().setIntensity(0.8f);
         }
+        // Toggle specular light
+        if (key == GLFW_KEY_S && action == GLFW_RELEASE) {
+            material.setSpecularIntensity(material.getSpecularIntensity() > 0 ? 0 : 2);
+            material.setSpecularPower(material.getSpecularPower() > 0 ? 0 : 32);
+        }
     }
 
     public void scrollCallback(long window, double xoffset, double yoffset) {
@@ -163,6 +168,7 @@ public class PhongLighting extends Game {
         Matrix4f ModelMatrix = pipeline.getModelMatrix();
 
         shader.updateUniforms(ModelMatrix, MVPMatrix, material);
+        shader.setUniform("cameraPos", pipeline.getCamera().getPosition());
 
         // Texture binding moved to Shader.updateUniforms();
 
