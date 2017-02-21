@@ -48,11 +48,17 @@ public class Utils {
         FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.SIZE);
 
         for (Vertex v : vertices) {
+            // put position
             buffer.put(v.getPos().getX());
             buffer.put(v.getPos().getY());
             buffer.put(v.getPos().getZ());
+            // put texture coordinates
             buffer.put(v.getTexCoord().getX());
             buffer.put(v.getTexCoord().getY());
+            // put normal
+            buffer.put(v.getNormal().getX());
+            buffer.put(v.getNormal().getY());
+            buffer.put(v.getNormal().getZ());
         }
 
         buffer.flip();

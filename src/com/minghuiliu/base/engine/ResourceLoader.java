@@ -50,7 +50,7 @@ public class ResourceLoader {
             System.exit(1);
         }
 
-        ArrayList<Vector3f> vertices = new ArrayList<Vector3f>();
+        ArrayList<Vertex> vertices = new ArrayList<Vertex>();
         ArrayList<Integer> indices = new ArrayList<Integer>();
         ArrayList<Vector2f> uvs = new ArrayList<Vector2f>();
 
@@ -67,9 +67,10 @@ public class ResourceLoader {
                 if (tokens.length == 0 || tokens[0].equals("#"))
                     continue;
                 else if (tokens[0].equals("v")) {
-                    vertices.add(new Vector3f(Float.valueOf(tokens[1]),
+                    vertices.add(new Vertex(
+                            new Vector3f(Float.valueOf(tokens[1]),
                             Float.valueOf(tokens[2]),
-                            Float.valueOf(tokens[3])));
+                            Float.valueOf(tokens[3]))));
                 } else if (tokens[0].equals("vt")) {
                     uvs.add(new Vector2f(Float.valueOf(tokens[1]), Float.valueOf(tokens[2])));
                 }  else if (tokens[0].equals("f")) {
@@ -88,13 +89,13 @@ public class ResourceLoader {
             meshReader.close();
 
             Mesh res = new Mesh();
-            Vector3f[] vertexData = new Vector3f[vertices.size()];
+            Vertex[] vertexData = new Vertex[vertices.size()];
             vertices.toArray(vertexData);
 
             Integer[] indexData = new Integer[indices.size()];
             indices.toArray(indexData);
 
-            res.addVertices(vertexData, Utils.toIntArray(indexData));
+            res.addVertices(vertexData, Utils.toIntArray(indexData), true);
 
             return res;
         } catch(Exception e) {

@@ -24,8 +24,7 @@ public class PhongLighting extends Game {
         super(window);
 
         this.mesh = new Mesh();
-        this.material = new Material(ResourceLoader.loadTexture("grassblock.png"),
-                                    new Vector3f(1.0f, 1.0f, 1.0f));
+        this.material = new Material(ResourceLoader.loadTexture("grassblock.png"));
         this.shader = PhongShader.getInstance();
         this.pipeline = new Pipeline();
 
@@ -68,7 +67,7 @@ public class PhongLighting extends Game {
         };
 
 
-        mesh.addVertices(vertices, indices);
+        mesh.addVertices(vertices, indices, true);
 
         // Get window dimensions
         int[] width = new int[1];
@@ -85,7 +84,10 @@ public class PhongLighting extends Game {
                 new Vector3f(0, 1, 0)));
         pipeline.setTranslation(0, 0, 5);
 
-        PhongShader.setAmbientLight(new Vector3f(0.2f, 0.2f, 0.2f));
+        PhongShader.setAmbientLight(new Vector3f(0.15f, 0.15f, 0.15f));
+        PhongShader.setDirectionalLight(new DirectionalLight(
+                new BaseLight(new Vector3f(1, 1, 1), 0.8f),
+                new Vector3f(1, 1, 1)));
     }
 
     @Override
@@ -130,17 +132,20 @@ public class PhongLighting extends Game {
 
     @Override
     public void update() {
-
+        double speed = 0.5f;
+        temp += speed * (float)Time.GetDelta();
+        float sinTemp = (float)Math.sin(temp);
+        pipeline.setRotation(0, sinTemp * 180, 0);
     }
 
     @Override
     public void render() {
         shader.bind();
 
-        Matrix4f MVPMatrix = pipeline.getTransformation();
+        Matrix4f MVPMatrix = pipeline.getMVPMatrix();
+        Matrix4f ModelMatrix = pipeline.getModelMatrix();
 
-        shader.setUniform("MVP", MVPMatrix);
-        shader.updateUniforms(MVPMatrix, material);
+        shader.updateUniforms(ModelMatrix, MVPMatrix, material);
 
         // Texture binding moved to Shader.updateUniforms();
 
