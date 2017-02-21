@@ -1,3 +1,4 @@
+import com.minghuiliu.base.demo.LightSources;
 import com.minghuiliu.base.demo.PhongLighting;
 import com.minghuiliu.base.demo.TextureDemo;
 import com.minghuiliu.base.engine.Game;
@@ -103,7 +104,7 @@ public class NewMain {
         Utils.initOpenGL();
 
         // New instance of a game
-        game = new PhongLighting(window);
+        game = new LightSources(window);
 
         // Some time keeping
         double lastFrameTime = glfwGetTime();
