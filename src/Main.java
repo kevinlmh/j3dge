@@ -61,8 +61,8 @@ public class Main {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(960, 540, "j3dge", NULL, NULL);
-//        window = glfwCreateWindow(1280, 720, "j3dge", glfwGetPrimaryMonitor(), NULL);
+//        window = glfwCreateWindow(960, 540, "j3dge", NULL, NULL);
+        window = glfwCreateWindow(1280, 720, "j3dge", glfwGetPrimaryMonitor(), NULL);
 
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
@@ -121,9 +121,9 @@ public class Main {
         System.out.println(glGetString(GL_VERSION));
 
         // Optional
-//        glFrontFace(GL_CW);
-//        glCullFace(GL_BACK);
-//        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CW);
+        glCullFace(GL_BACK);
+        glEnable(GL_CULL_FACE);
 
         // Enable depth test
         glEnable(GL_DEPTH_TEST);

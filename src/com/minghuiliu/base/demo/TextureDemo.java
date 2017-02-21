@@ -69,11 +69,11 @@ public class TextureDemo extends Game {
                 // Right face
                 12, 13, 7, 5, 12, 7,
                 // Left face
-                14, 15, 6, 4, 14, 6,
+                14, 6, 15, 4, 6, 14,
                 // Bottom face
-                16, 18, 19, 17, 16, 19,
+                16, 19, 18, 17, 19, 16,
                 // Back face
-                4, 6, 7, 5, 4, 7
+                4, 7, 6, 5, 7, 4
         };
 
 
